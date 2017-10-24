@@ -23,6 +23,7 @@ class PlanController extends Controller
     {
         $user_id = Plan::where('id',$id)->value('user_id');
         if ($user_id == Auth::id()) {
+            $image_comment = ImageComment::all();
             $comments = DB::table('comments')
                 ->join('users', 'comments.user_id', '=', 'users.id')
                 ->select('comments.*','users.name','users.avatar_image')
@@ -38,7 +39,7 @@ class PlanController extends Controller
                 ->orderBy('comments.created_at','asc')
                 ->get();
             $plan_host = Plan::where('id',$id)->get();
-            return view('plan.host',['plan_host' => $plan_host,'comments' => $comments,'reply' => $reply]);
+            return view('plan.host',['plan_host' => $plan_host,'comments' => $comments,'reply' => $reply,'image_comment' => $image_comment]);
         }
         else {
             $image_comment = ImageComment::all();

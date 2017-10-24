@@ -124,19 +124,28 @@
                             @endforeach
                         </div>
                         <br>
-                        <a class="btn btn-success" onclick="reply({{$cmt->id}})"><small>Reply</small></a>
+                        <a onclick="reply({{$cmt->id}})"><small>Reply</small></a>
                         <div id = "{{$cmt->id}}" style="display: none;" class="well">
                             <hr>
-                            <form method="post" action="{{route('reply')}}">
+                            <form method="post" action="{{route('reply')}}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
-                                <label for="comment">Your Comment</label>
+                                <label for="comment">Your Comment</label >
                                 <div class="form-group">
                                     <textarea class="form-control" rows="3" name="message" required></textarea>
                                     <input type="hidden" name="comment_id" value="{{$cmt->id}}">
                                     <input type="hidden" name="plan_id" value="{{$data->id}}">
-
+                                    <div class="imageupload panel panel-default">
+                                        <div class="file-tab panel-body">
+                                            <label class="btn btn-default btn-file">
+                                                <span><i class="fa fa-camera"></i>Upload</span>
+                                                <!-- The file is stored here. -->
+                                                <input type="file" class="form-control" id="image" name="image[]" onchange="preview_reply();" multiple/>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-success">Send</button> 
+                                <button type="submit" class="btn btn-success">Send</button>
+                                <div class="row" id="image_reply"></div>
                             </form>
                         </div>
                     </div>
@@ -148,9 +157,16 @@
                           <img src="{{asset($link)}}" class="avatar" alt="">
                             <div class="post-comments">
                                 <p class="meta"> {{$rl->created_at}}  <a href="#">{{$rl->name}}</a> says : <i class="pull-right"></i></p>
-                                <p>
-                                    {{$rl->message}}
-                                </p>
+                                <div>
+                                    <p>{{$rl->message}}</p>
+                                    @foreach($image_comment as $key => $img)
+                                        @if($img->comment_id == $rl->id)
+                                        <?php $img = $img->image_name; $link = 'comment_image/'.$img ; ?>
+                                        <hr>
+                                        <img src="{{asset($link)}}">
+                                        @endif
+                                    @endforeach
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -200,6 +216,14 @@ function preview_images()
  for(var i=0;i<total_file;i++)
  {
   $('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+ }
+}
+function preview_reply() 
+{
+ var total_file=document.getElementById("image").files.length;
+ for(var i=0;i<total_file;i++)
+ {
+  $('#image_reply').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
  }
 }
 </script>

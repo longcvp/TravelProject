@@ -43,6 +43,17 @@ class CommentController extends Controller
     	$comment->reply_id = $request->comment_id;
     	$comment->message = $request->message;
     	$comment->save();
+
+        if($request->hasFile('image')) {
+            foreach ($request->image as $image) {
+                $filename = time().$image->getClientOriginalName();
+                Image::make($image)->resize(300, 300)->save( public_path('/comment_image/'.$filename));
+                $images = new ImageComment;
+                $images->comment_id = $comment->id;
+                $images->image_name = $filename;
+                $images->save();
+            }
+        }
     	return redirect()->route('plan',$request->plan_id);
     }
 }
