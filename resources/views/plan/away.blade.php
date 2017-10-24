@@ -113,9 +113,17 @@
                   <img src="{{asset($link)}}" class="avatar" alt="">
                     <div class="post-comments">
                         <p class="meta">{{$cmt->created_at}}  <a href="#">{{$cmt->name}}</a> says : <i class="pull-right"></i></p>
-                        <p>
-                            {{$cmt->message}}
-                        </p>
+                        <div>
+                            <p>{{$cmt->message}}</p>
+                            @foreach($image_comment as $key => $img)
+                                @if($img->comment_id == $cmt->id)
+                                <?php $img = $img->image_name; $link = 'comment_image/'.$img ; ?>
+                                <hr>
+                                <img src="{{asset($link)}}">
+                                @endif
+                            @endforeach
+                        </div>
+                        <br>
                         <a class="btn btn-success" onclick="reply({{$cmt->id}})"><small>Reply</small></a>
                         <div id = "{{$cmt->id}}" style="display: none;" class="well">
                             <hr>
@@ -133,7 +141,7 @@
                         </div>
                     </div>
                     @foreach($reply as $key => $rl)
-                    @if($rl->comment_id == $cmt->id)
+                    @if($rl->reply_id == $cmt->id)
                     <?php $img = $rl->avatar_image; $link = 'avatar/'.$img ; ?>
                     <ul class="comments">
                         <li class="clearfix">
@@ -152,14 +160,24 @@
                 </ul>
                 @endforeach    
                 <div class="well">
-                    <form method="post" action="{{route('comment')}}">
+                    <form method="post" action="{{route('comment')}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <label for="comment">Your Comment</label>
                         <div class="form-group">
                             <textarea class="form-control" rows="3" name="message" required></textarea>
                             <input type="hidden" name="plan_id" value="{{$data->id}}">
+                            <div class="imageupload panel panel-default">
+                                <div class="file-tab panel-body">
+                                    <label class="btn btn-default btn-file">
+                                        <span><i class="fa fa-camera"></i>Upload</span>
+                                        <!-- The file is stored here. -->
+                                        <input type="file" class="form-control" id="images" name="images[]" onchange="preview_images();" multiple/>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-success">Send</button>
+                         <div class="row" id="image_preview"></div>
                     </form>
                 </div>            
             </div>
@@ -175,6 +193,14 @@
     } else {
         x.style.display = "none";
     }
+}
+function preview_images() 
+{
+ var total_file=document.getElementById("images").files.length;
+ for(var i=0;i<total_file;i++)
+ {
+  $('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+ }
 }
 </script>
 @endforeach

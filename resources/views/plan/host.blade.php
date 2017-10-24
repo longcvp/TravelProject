@@ -152,7 +152,7 @@
                         </div>
                     </div>
                     @foreach($reply as $key => $rl)
-                    @if($rl->comment_id == $cmt->id)
+                    @if($rl->reply_id == $cmt->id)
                     <?php $img = $rl->avatar_image; $link = 'avatar/'.$img ; ?>
                     <ul class="comments">
                         <li class="clearfix">

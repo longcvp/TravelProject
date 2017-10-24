@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Plan;
 use App\Follow;
+use App\ImageComment;
 use App\Join;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,38 +27,39 @@ class PlanController extends Controller
                 ->join('users', 'comments.user_id', '=', 'users.id')
                 ->select('comments.*','users.name','users.avatar_image')
                 ->where('comments.plan_id',$id)
-                ->whereNull('comments.comment_id')
+                ->whereNull('comments.reply_id')
                 ->orderBy('comments.created_at','asc')
                 ->get();
             $reply = DB::table('comments')
                 ->join('users', 'comments.user_id', '=', 'users.id')
                 ->select('comments.*','users.name','users.avatar_image')
                 ->where('comments.plan_id',$id)
-                ->whereNotNull('comments.comment_id')
+                ->whereNotNull('comments.reply_id')
                 ->orderBy('comments.created_at','asc')
                 ->get();
             $plan_host = Plan::where('id',$id)->get();
             return view('plan.host',['plan_host' => $plan_host,'comments' => $comments,'reply' => $reply]);
         }
         else {
+            $image_comment = ImageComment::all();
             $comments = DB::table('comments')
                 ->join('users', 'comments.user_id', '=', 'users.id')
                 ->select('comments.*','users.name','users.avatar_image')
                 ->where('comments.plan_id',$id)
-                ->whereNull('comments.comment_id')
+                ->whereNull('comments.reply_id')
                 ->orderBy('comments.created_at','asc')
                 ->get();
             $reply = DB::table('comments')
                 ->join('users', 'comments.user_id', '=', 'users.id')
                 ->select('comments.*','users.name','users.avatar_image')
                 ->where('comments.plan_id',$id)
-                ->whereNotNull('comments.comment_id')
+                ->whereNotNull('comments.reply_id')
                 ->orderBy('comments.created_at','asc')
                 ->get();
             $check_join = Join::where('user_id',Auth::id())->where('plan_id',$id)->value('join');
             $check_follow = Follow::where('user_id',Auth::id())->where('plan_id',$id)->value('follow');
             $away = Plan::where('id',$id)->get();
-            return view('plan.away',['away' => $away,'check_join' => $check_join, 'check_follow' => $check_follow,'comments' => $comments,'reply' => $reply]);
+            return view('plan.away',['away' => $away,'check_join' => $check_join, 'check_follow' => $check_follow,'comments' => $comments,'reply' => $reply,'image_comment' => $image_comment]);
         }
     }
 
