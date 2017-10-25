@@ -157,7 +157,7 @@
                                             <label class="btn btn-default btn-file">
                                                 <span><i class="fa fa-camera"></i>Upload</span>
                                                 <!-- The file is stored here. -->
-                                                <input type="file" class="form-control" id="image" name="image[]" onchange="preview_reply();" multiple/>
+                                                <input type="file" class="form-control" id="image" accept="image/*" name="image[]" onchange="preview_reply();" multiple/>
                                             </label>
                                         </div>
                                     </div>
@@ -206,7 +206,7 @@
                                     <label class="btn btn-default btn-file">
                                         <span><i class="fa fa-camera"></i>Upload</span>
                                         <!-- The file is stored here. -->
-                                        <input type="file" class="form-control" id="images" name="images[]" onchange="preview_images();" multiple/>
+                                        <input type="file" class="form-control" id="images" accept="image/*" name="images[]" onchange="preview_images();" multiple/>
                                     </label>
                                 </div>
                             </div>

@@ -133,7 +133,7 @@ class PlanController extends Controller
     		'status' => $request->status,
     		'max_people' => $request->number,
     	]);
-    	return redirect()->route('host',$request->plan_id)->with('success','The Plan update successfull');
+    	return redirect()->route('plan',$request->plan_id)->with('success','The Plan update successfull');
     }
 
 }

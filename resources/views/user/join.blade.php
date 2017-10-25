@@ -7,7 +7,7 @@
             <div>
                 <div class="row">
                     <div class="col-sm-6 col-md-4">
-                        <?php $img = $user->avatar_image; $link = 'avatar/'.$img ; ?>
+                        <?php $img = Auth::user()->avatar_image; $link = 'avatar/'.$img ; ?>
                         <img src="{{ asset($link) }}" style="width:150px; height:150px; float:left; border-radius:50%; margin-right:25px; " >
                         <br>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalChangeAvatar">Change avatar</button>
@@ -26,7 +26,7 @@
                                     {{ csrf_field() }}
                                     <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
                                         <label class="control-label">Update profile Image</label>
-                                        <input type="file" name="avatar" required>
+                                        <input type="file" accept ="image/*" name="avatar" required>
 
                                             @if ($errors->has('name'))
                                                 <span class="help-block">
@@ -188,53 +188,43 @@
         <br>
         <h3>Plan Join</h3>
         <hr style=" height: 30px; border-style: solid; border-color: #8c8b8b; border-width: 1px 0 0 0; border-radius: 20px">
-        <table width="100%" border="2" cellpadding="10px" >
-          <tr valign="top" bgcolor="#e6eeff">
-            <td width="100" height="200" align="auto">
-            <p><font color="red" size="3">Name: Du lịch quanh Sơn Tây </font></p>
-                <br>
-            <p><font color="red" size="3">Max People: 10</font></p>
-                <br>
-            <p><font color="red" size="3">Start Time: 1/1/2018</font></p>
-                <br>
-            <p><font color="red" size="3">Finish: 1/1/2018</font></p>
-            <div class="form-group">
-                <div class="col-md-6 col-md-offset-4">
-                    <form class="form-horizontal" method="get" action="./away">
-                        <button type="submit" class="btn btn-danger">
-                            Detail
-                        </button>                        
-                    </form>
-                </div>
-            </div>
-            </td>
-            <td width="50">
-                <img src="https://znews-photo-td.zadn.vn/w660/Uploaded/Ohunoaa/2016_03_29/chua_xu.jpg" alt="">
-            </td>            
-        </tr>
+        @foreach($plan_join as $key => $data)
+            <table>
+                <tr>
+                    <div class="row">
 
-        <tr valign="top" bgcolor="#e6eeff">
-            <td width="50">
-                <img src="http://image.thanhnien.vn/665/uploaded/minhnguyet/2017_06_04/hoa_snob_qhrr.jpg" alt="">
-            </td>
-            <td width="100" height="200" align="auto">
-            <p><font color="red" size="3">Name: Du lịch quanh Sơn Tây </font></p>
-                <br>
-            <p><font color="red" size="3">Max People: 10</font></p>
-                <br>
-            <p><font color="red" size="3">Start Time: 1/1/2018</font></p>
-                <br>
-            <p><font color="red" size="3">Finish: 1/1/2018</font></p>
-            <div class="form-group">
-                <div class="col-md-6 col-md-offset-4">
-                    <button type="submit" class="btn btn-danger">
-                        Detail
-                    </button>
-                </div>
-            </div>
-            </td>
-          </tr>
+                        <div class="col-md-6">
+                            <?php $img = $data->cover_image; $link = 'coverplan/'.$img ; ?>
+                            <img class="img-fluid" src="{{asset($link)}}" style="width: 500px; height: 500px;">
+                        </div>
+                        <div class="col-md-4">
+                            <h3>Name : {{$data->plan_name}}</h3>
+                            <h3>Plan Details</h3>
+                            <ul>
+                            <li>Start : {{$data->start_time}}</li>
+                            <li>End : {{$data->end_time}}</li>
+                            <li>Max of people: {{$data->max_people}}</li>
+                            <li>
+                                @if($data->status == 1)
+                                {{"Status : Creating"}}
+                                @elseif($data->status == 2)
+                                {{"Status : Running"}}
+                                @elseif($data->status == 3)
+                                {{"Status : Finish"}}
+                                @elseif($data->status == 4)
+                                {{"Status : Cancel"}}
+                                @endif
+                            </li>
+                            <li>Join: {{$data->joined}} people</li>
+                            <li>Follow: {{$data->followed}} people</li>
+                            </ul>
+                            <a href="./plan/{{$data->id}}" type="button" class="btn btn-danger">Detail</a>                       
+                        </div>
+                    </div>
+                </tr>
+            <tr><br><br></tr>
         </table>
+        @endforeach
     </div>
 </div>
 @endsection

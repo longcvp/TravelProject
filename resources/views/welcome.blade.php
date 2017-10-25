@@ -38,7 +38,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="header-logo" href="#">
+                    <a class="header-logo" href="/">
                         <img src="{{asset('imghome/logo_travelVietNam.png')}}">
                     </a>
                 </div>
@@ -96,43 +96,42 @@
       </div>
             <h2>New Plans</h2>
             <hr style=" height: 30px; border-style: solid; border-color: #8c8b8b; border-width: 1px 0 0 0; border-radius: 20px">
-        <table width="100%" border="0" cellpadding="10px" >
-            <tr valign="top" bgcolor="#e6eeff">
-                <td width="50">
-                    <img src="http://images.ndh.vn/Images/Uploaded/Share/2013/12/16/8c8images601608thuyta0e6c7.jpg" alt="">
-                </td>
-                <td width="100" height="200" align="auto">
-                <h4>Name: Du lịch quanh Sơn Tây </h4>
-                <h5>Max People: 10</h5>
-                <h5>Start Time: 1/1/2018</h5>
-                <h5>Finish: 1/1/2018</h5>
-                <h5>Status: Wating</h5>
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                        <a href="{{ route('register') }}" type="button" class="btn btn-danger">Join us</a>
-                    </div>
-                </div>
-                </td>
-            </tr>
+        @foreach($plan as $key => $data)
+            <table>
+                <tr>
+                    <div class="row">
 
-            <tr valign="top" bgcolor="#e6eeff">
-                <td width="100" height="200" align="auto">
-                <h4>Name: Du lịch quanh Sơn Tây </h4>
-                <h5>Max People: 10</h5>
-                <h5>Start Time: 1/1/2018</h5>
-                <h5>Finish: 1/1/2018</h5>
-                <h5>Status: Wating</h5>
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                        <a href="{{ route('register') }}" type="button" class="btn btn-danger">Join us</a>
+                        <div class="col-md-6">
+                            <?php $img = $data->cover_image; $link = 'coverplan/'.$img ; ?>
+                            <img class="img-fluid" src="{{asset($link)}}" style="width: 500px; height: 500px;">
+                        </div>
+                        <div class="col-md-4">
+                            <h3>Name : {{$data->plan_name}}</h3>
+                            <h3>Plan Details</h3>
+                            <ul>
+                            <li>Start : {{$data->start_time}}</li>
+                            <li>End : {{$data->end_time}}</li>
+                            <li>Max of people: {{$data->max_people}}</li>
+                            <li>
+                                @if($data->status == 1)
+                                {{"Status : Creating"}}
+                                @elseif($data->status == 2)
+                                {{"Status : Running"}}
+                                @elseif($data->status == 3)
+                                {{"Status : Finish"}}
+                                @elseif($data->status == 4)
+                                {{"Status : Cancel"}}
+                                @endif
+                            </li>
+                            <li>Create at: {{$data->created_at}}</li>
+                            </ul>
+                            <a href="{{route('register')}}" type="button" class="btn btn-danger">Join us</a>                           
+                        </div>
                     </div>
-                </div>
-                </td>
-                <td width="50">
-                    <img src="http://baoduongsat.vn/wp-content/uploads/2016/05/du-lich-da-lat-1.jpg" align="right">
-                </td>                
-            </tr>
+                </tr>
+            <tr><br><br></tr>
         </table>
+        @endforeach
         </div>
     </div>
     <div class="container">
@@ -140,60 +139,44 @@
             <br>
             <h2>Hot Plans</h2>
             <hr style=" height: 30px; border-style: solid; border-color: #8c8b8b; border-width: 1px 0 0 0; border-radius: 20px">
-            <table width="100%" border="0" cellpadding="10px" >
-                <tr valign="top" bgcolor="#e6eeff">
-                    <td width="50">
-                        <img src="http://images.ndh.vn/Images/Uploaded/Share/2013/12/16/8c8images601608thuyta0e6c7.jpg" alt="">
-                    </td>
-                    <td width="100" height="200" align="auto">
-                        <h4>Name: Du lịch quanh Sơn Tây </h4>
-                        <h5>Max People: 10</h5>
-                        <h5>Start Time: 1/1/2018</h5>
-                        <h5>Finish: 1/1/2018</h5>
-                        <h5>15 comments- 19 follows </h5>                        
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
-                            <a href="{{ route('register') }}" type="button" class="btn btn-danger">Join us</a>
-                        </div>
-                    </div>
-                    </td>
-                </tr>
+            @foreach($plan_hot as $key => $data)
+            <table>
+                <tr>
+                    <div class="row">
 
-                <tr valign="top" bgcolor="#e6eeff">
-                    <td width="100" height="200" align="auto">
-                        <h4>Name: Du lịch quanh Sơn Tây </h4>
-                        <h5>Max People: 10</h5>
-                        <h5>Start Time: 1/1/2018</h5>
-                        <h5>Finish: 1/1/2018</h5>
-                        <h5>15 comments- 19 follows </h5>                        
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
-                            <a href="{{ route('register') }}" type="button" class="btn btn-danger">Join us</a>
+                        <div class="col-md-6">
+                            <?php $img = $data->cover_image; $link = 'coverplan/'.$img ; ?>
+                            <img class="img-fluid" src="{{asset($link)}}" style="width: 500px; height: 500px;">
+                        </div>
+                        <div class="col-md-4">
+                            <h3>Name : {{$data->plan_name}}</h3>
+                            <h3>Plan Details</h3>
+                            <ul>
+                            <li>Start : {{$data->start_time}}</li>
+                            <li>End : {{$data->end_time}}</li>
+                            <li>Max of people: {{$data->max_people}}</li>
+                            <li>
+                                @if($data->status == 1)
+                                {{"Status : Creating"}}
+                                @elseif($data->status == 2)
+                                {{"Status : Running"}}
+                                @elseif($data->status == 3)
+                                {{"Status : Finish"}}
+                                @elseif($data->status == 4)
+                                {{"Status : Cancel"}}
+                                @endif
+                            </li>
+                            <li>Join: {{$data->joined}} people</li>
+                            <li>Follow: {{$data->followed}} people</li>
+                            <li>Comment: {{$data->comments}} </li>
+                            </ul>
+                            <a href="{{route('register')}}" type="button" class="btn btn-danger">Join us</a>                           
                         </div>
                     </div>
-                    </td>
-                    <td width="50">
-                        <img src="http://baoduongsat.vn/wp-content/uploads/2016/05/du-lich-da-lat-1.jpg" align="right">
-                    </td>                
                 </tr>
-                <tr valign="top" bgcolor="#e6eeff">
-                    <td width="50">
-                        <img src="http://images.ndh.vn/Images/Uploaded/Share/2013/12/16/8c8images601608thuyta0e6c7.jpg" alt="">
-                    </td>
-                    <td width="100" height="200" align="auto">
-                        <h4>Name: Du lịch quanh Sơn Tây </h4>
-                        <h5>Max People: 10</h5>
-                        <h5>Start Time: 1/1/2018</h5>
-                        <h5>Finish: 1/1/2018</h5>
-                        <h5>15 comments- 19 follows </h5>    
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
-                            <a href="{{ route('register') }}" type="button" class="btn btn-danger">Join us</a>
-                        </div>
-                    </div>
-                    </td>
-                </tr>
-            </table>    
+            <tr><br><br></tr>
+        </table>
+        @endforeach       
         </div>
     </div>
     <footer class="text-center">

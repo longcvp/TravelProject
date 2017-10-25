@@ -26,7 +26,7 @@
                                     {{ csrf_field() }}
                                     <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
                                         <label class="control-label">Update profile Image</label>
-                                        <input type="file" name="avatar" required>
+                                        <input type="file" accept ="image/*" name="avatar" required>
 
                                             @if ($errors->has('avatar'))
                                                 <span class="help-block">

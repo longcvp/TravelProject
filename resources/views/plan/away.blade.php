@@ -124,7 +124,7 @@
                             @endforeach
                         </div>
                         <br>
-                        <a onclick="reply({{$cmt->id}})"><small>Reply</small></a>
+                        <a class="btn btn-success" onclick="reply({{$cmt->id}})"><small>Reply</small></a>
                         <div id = "{{$cmt->id}}" style="display: none;" class="well">
                             <hr>
                             <form method="post" action="{{route('reply')}}" enctype="multipart/form-data">
@@ -139,13 +139,13 @@
                                             <label class="btn btn-default btn-file">
                                                 <span><i class="fa fa-camera"></i>Upload</span>
                                                 <!-- The file is stored here. -->
-                                                <input type="file" class="form-control" id="image" name="image[]" onchange="preview_reply();" multiple/>
+                                                <input type="file" class="form-control" accept="image/*" id="image" name="image[]" onchange="preview_reply_image();" multiple/>
                                             </label>
                                         </div>
                                     </div>
+                                    <div class="row" id="image_reply"></div>
                                 </div>
                                 <button type="submit" class="btn btn-success">Send</button>
-                                <div class="row" id="image_reply"></div>
                             </form>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                                     <label class="btn btn-default btn-file">
                                         <span><i class="fa fa-camera"></i>Upload</span>
                                         <!-- The file is stored here. -->
-                                        <input type="file" class="form-control" id="images" name="images[]" onchange="preview_images();" multiple/>
+                                        <input type="file" class="form-control" accept="image/*" id="images" name="images[]" onchange="preview_images();" multiple/>
                                     </label>
                                 </div>
                             </div>
@@ -211,21 +211,21 @@
     }
 }
 function preview_images() 
-{
- var total_file=document.getElementById("images").files.length;
- for(var i=0;i<total_file;i++)
- {
-  $('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
- }
-}
-function preview_reply() 
-{
- var total_file=document.getElementById("image").files.length;
- for(var i=0;i<total_file;i++)
- {
-  $('#image_reply').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
- }
-}
+    {
+     var total_file=document.getElementById("images").files.length;
+     for(var i=0;i<total_file;i++)
+     {
+      $('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+     }
+    }
+function preview_reply_image() 
+    {
+     var total_file=document.getElementById("image").files.length;
+     for(var i=0;i<total_file;i++)
+     {
+      $('#image_reply').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+     }
+    }
 </script>
 @endforeach
 <br><br>

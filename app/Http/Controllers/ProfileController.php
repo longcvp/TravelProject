@@ -15,6 +15,12 @@ use Image;
 
 class ProfileController extends Controller
 {
+    public function guest()
+    {
+        $plan = Plan::take(10)->orderBy('created_at','desc')->get();
+        $plan_hot = Plan::take(10)->orderBy('comments','desc')->get();
+        return view('welcome',['plan' => $plan,'plan_hot' => $plan_hot]);
+    }
 	//show profile
     public function showProfile()
     {
@@ -24,13 +30,13 @@ class ProfileController extends Controller
 
     public function showPlanJoin()
     {
-        $plan = DB::table('joins')
+        $plan_join = DB::table('joins')
             ->join('plans','joins.plan_id', '=', 'plans.id')
             ->select('plans.*')
             ->where('joins.user_id',Auth::id())
-            ->where()
+            ->where('joins.join',2)
             ->get();
-        return view('user.join',['plan' => $plan]);
+        return view('user.join',['plan_join' => $plan_join]);
     }
 
     public function showPlanFollow()
