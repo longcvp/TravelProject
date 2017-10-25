@@ -65,7 +65,6 @@
                                 {{"Status : Cancel"}}
                                 @endif
                             </li>
-                            <li>Create at: {{$data->created_at}}</li>
                             </ul>
                             <a href="home/plan/{{$data->id}}" type="button" class="btn btn-danger">Detail</a>                           
                         </div>

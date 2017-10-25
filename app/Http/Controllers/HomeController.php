@@ -24,15 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $plan = Plan::take(10)->orderBy('created_at','desc')->get();
+        $plan = Plan::take(10)->orderBy('id','desc')->get();
         $plan_hot = Plan::take(10)->orderBy('comments','desc')->get();
         return view('home',['plan' => $plan,'plan_hot' => $plan_hot]);
     }
 
-    public function guest()
-    {
-        $plan = Plan::take(10)->orderBy('created_at','desc')->get();
-        $plan_hot = Plan::take(10)->orderBy('comments','desc')->get();
-        return view('welcome',['plan' => $plan,'plan_hot' => $plan_hot]);
-    }
 }

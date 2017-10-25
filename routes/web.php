@@ -24,7 +24,10 @@ Route::group(['prefix'=>'home','middleware' => 'auth'],function(){
 		'as' => 'profile',
 		'uses' => 'ProfileController@showProfile',
 	]);
-
+	Route::get('/profile/edit', [
+		'as' => 'profile_edit',
+		'uses' => 'ProfileController@showEditProfile',
+	]);
 	Route::get('/join/', [
 		'uses' => 'ProfileController@showPlanJoin',	
 	]);

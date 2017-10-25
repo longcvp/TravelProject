@@ -28,6 +28,11 @@ class ProfileController extends Controller
         return view('user.profile',['plan' => $plan]);
     }
 
+    public function showEditProfile()
+    {
+        return view('user.edit_profile');
+    }
+
     public function showPlanJoin()
     {
         $plan_join = DB::table('joins')
