@@ -99,20 +99,22 @@
 		</div>
 </div>
 <hr style="border-top: 3px double #8c8b8b;">
-<div class="container" id ="comment">
+<div class="container" id="comment">
     <div class="container bootstrap snippet">
     <div class="row">
         <div class="col-md-12">
             <div class="blog-comment">
-                <h3 class="text-success">Comments</h3>
+                <h3 class="text-success">Comment</h3>
                 <hr style=" height: 30px; border-style: solid; border-color: #8c8b8b; border-width: 1px 0 0 0; border-radius: 20px">
                 @foreach($comments as $key => $cmt)
-                <?php $img = $cmt->avatar_image; $link = 'avatar/'.$img ; ?>
+                @foreach($users_comment as $key => $uc)
+                @if($cmt->user_id == $uc->id)
+                <?php $img = $uc->avatar_image; $link = 'avatar/'.$img ; ?>
                 <ul class="comments">
                 <li class="clearfix">
                   <img src="{{asset($link)}}" class="avatar" alt="">
                     <div class="post-comments">
-                        <p class="meta">{{$cmt->created_at}}  <a href="#">{{$cmt->name}}</a> says : <i class="pull-right"></i></p>
+                        <p class="meta">{{$cmt->created_at}} <a href="#">{{$uc->name}}</a> says : <i class="pull-right"></i></p>
                         <div>
                             <p>{{$cmt->message}}</p>
                             @foreach($image_comment as $key => $img)
@@ -123,8 +125,7 @@
                                 @endif
                             @endforeach
                         </div>
-                        <br>
-                        <a class="btn btn-success" onclick="reply({{$cmt->id}})"><small>Reply</small></a>
+                        <a onclick="reply({{$cmt->id}})"><small>Reply</small></a>
                         <div id = "{{$cmt->id}}" style="display: none;" class="well">
                             <hr>
                             <form method="post" action="{{route('reply')}}" enctype="multipart/form-data">
@@ -139,24 +140,26 @@
                                             <label class="btn btn-default btn-file">
                                                 <span><i class="fa fa-camera"></i>Upload</span>
                                                 <!-- The file is stored here. -->
-                                                <input type="file" class="form-control" accept="image/*" id="image" name="image[]" onchange="preview_reply_image();" multiple/>
+                                                <input type="file" class="form-control" id="image" accept="image/*" name="image[]" onchange="preview_reply();" multiple/>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="row" id="image_reply"></div>
                                 </div>
                                 <button type="submit" class="btn btn-success">Send</button>
+                                <div class="row" id="image_reply"></div>
                             </form>
                         </div>
                     </div>
                     @foreach($reply as $key => $rl)
+                    @foreach($users_reply as $key => $ur)
                     @if($rl->reply_id == $cmt->id)
-                    <?php $img = $rl->avatar_image; $link = 'avatar/'.$img ; ?>
+                    @if($rl->user_id == $ur->id)
+                    <?php $img = $ur->avatar_image; $link = 'avatar/'.$img ; ?>
                     <ul class="comments">
                         <li class="clearfix">
                           <img src="{{asset($link)}}" class="avatar" alt="">
                             <div class="post-comments">
-                                <p class="meta"> {{$rl->created_at}}  <a href="#">{{$rl->name}}</a> says : <i class="pull-right"></i></p>
+                                <p class="meta"> {{$rl->created_at}}  <a href="#">{{$ur->name}}</a> says : <i class="pull-right"></i></p>
                                 <div>
                                     <p>{{$rl->message}}</p>
                                     @foreach($image_comment as $key => $img)
@@ -171,10 +174,15 @@
                         </li>
                     </ul>
                     @endif
+                    @endif
+                    @endforeach
                     @endforeach
                 </li>
                 </ul>
-                @endforeach    
+                @endif
+                @endforeach
+                @endforeach
+                <hr>
                 <div class="well">
                     <form method="post" action="{{route('comment')}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
@@ -187,7 +195,7 @@
                                     <label class="btn btn-default btn-file">
                                         <span><i class="fa fa-camera"></i>Upload</span>
                                         <!-- The file is stored here. -->
-                                        <input type="file" class="form-control" accept="image/*" id="images" name="images[]" onchange="preview_images();" multiple/>
+                                        <input type="file" class="form-control" id="images" accept="image/*" name="images[]" onchange="preview_images();" multiple/>
                                     </label>
                                 </div>
                             </div>
@@ -195,14 +203,14 @@
                         <button type="submit" class="btn btn-success">Send</button>
                          <div class="row" id="image_preview"></div>
                     </form>
-                </div>            
+                </div>              
             </div>
         </div>
     </div>
     </div>
 </div>
 <script>
-    function reply($id) {
+function reply($id) {
     var x = document.getElementById($id);
     if (x.style.display === "none") {
         x.style.display = "block";
@@ -211,21 +219,21 @@
     }
 }
 function preview_images() 
-    {
-     var total_file=document.getElementById("images").files.length;
-     for(var i=0;i<total_file;i++)
-     {
-      $('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
-     }
-    }
-function preview_reply_image() 
-    {
-     var total_file=document.getElementById("image").files.length;
-     for(var i=0;i<total_file;i++)
-     {
-      $('#image_reply').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
-     }
-    }
+{
+ var total_file=document.getElementById("images").files.length;
+ for(var i=0;i<total_file;i++)
+ {
+  $('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+ }
+}
+function preview_reply() 
+{
+ var total_file=document.getElementById("image").files.length;
+ for(var i=0;i<total_file;i++)
+ {
+  $('#image_reply').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
+ }
+}
 </script>
 @endforeach
 <br><br>

@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'password','username','address','phone','birthday','gender',
+        'name', 'password','username','address','phone','birthday','gender','id',
     ];
 
     /**
@@ -30,5 +30,15 @@ class User extends Authenticatable
     public function joins()
     {
         return $this->hasMany('App\Join','user_id','id');
+    }
+
+    public function plans()
+    {
+        return $this->hasMany('App\Plan','user_id','id');
+    }
+
+    public function follows()
+    {
+        return $this->hasMany('App\Follow','user_id','id');
     }
 }

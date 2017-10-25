@@ -53,8 +53,10 @@
                         @endif
                     </td>
                     <td>{{$users->phone}}</td>
+                    @foreach($joins as $key => $j)
+                        @if($j->user_id == $users->id)
                     <td>
-                        <?php $status = $users->join; ?>        
+                        <?php $status = $j->join; ?>        
                         @if($status == 1 )
                             {{"Waiting"}}
                         @elseif($status == 2 )
@@ -62,7 +64,7 @@
                         @endif
                     </td>
                     <td>
-                        <?php $status = $users->join; ?>        
+                        <?php $status = $j->join; ?>        
                         @if($status == 1 )
                             <form class="form-horizontal" method="get" action="{{route('accept')}}">
                                 {{ csrf_field() }}
@@ -75,7 +77,7 @@
                         @endif                        
                     </td>
                     <td>
-                        <?php $status = $users->join; ?>        
+                        <?php $status = $j->join; ?>        
                         @if($status == 1 )
                             <form class="form-horizontal" method="get" action="{{route('deny')}}">
                                 {{ csrf_field() }}
@@ -88,7 +90,7 @@
                         @endif 
                     </td>
                     <td>
-                        <?php $status = $users->join; ?>        
+                        <?php $status = $j->join; ?>        
                         @if($status == 1 )
                             {{""}}
                         @elseif($status == 2 )
@@ -100,6 +102,8 @@
 
                         @endif 
                     </td>
+                    @endif
+                    @endforeach
                 </tr>  
                 @endforeach             
             </table>

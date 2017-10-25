@@ -126,12 +126,14 @@
                 <h3 class="text-success">Comment</h3>
                 <hr style=" height: 30px; border-style: solid; border-color: #8c8b8b; border-width: 1px 0 0 0; border-radius: 20px">
                 @foreach($comments as $key => $cmt)
-                <?php $img = $cmt->avatar_image; $link = 'avatar/'.$img ; ?>
+                @foreach($users_comment as $key => $uc)
+                @if($cmt->user_id == $uc->id)
+                <?php $img = $uc->avatar_image; $link = 'avatar/'.$img ; ?>
                 <ul class="comments">
                 <li class="clearfix">
                   <img src="{{asset($link)}}" class="avatar" alt="">
                     <div class="post-comments">
-                        <p class="meta">{{$cmt->created_at}} <a href="#">{{$cmt->name}}</a> says : <i class="pull-right"></i></p>
+                        <p class="meta">{{$cmt->created_at}} <a href="#">{{$uc->name}}</a> says : <i class="pull-right"></i></p>
                         <div>
                             <p>{{$cmt->message}}</p>
                             @foreach($image_comment as $key => $img)
@@ -168,13 +170,15 @@
                         </div>
                     </div>
                     @foreach($reply as $key => $rl)
+                    @foreach($users_reply as $key => $ur)
                     @if($rl->reply_id == $cmt->id)
-                    <?php $img = $rl->avatar_image; $link = 'avatar/'.$img ; ?>
+                    @if($rl->user_id == $ur->id)
+                    <?php $img = $ur->avatar_image; $link = 'avatar/'.$img ; ?>
                     <ul class="comments">
                         <li class="clearfix">
                           <img src="{{asset($link)}}" class="avatar" alt="">
                             <div class="post-comments">
-                                <p class="meta"> {{$rl->created_at}}  <a href="#">{{$rl->name}}</a> says : <i class="pull-right"></i></p>
+                                <p class="meta"> {{$rl->created_at}}  <a href="#">{{$ur->name}}</a> says : <i class="pull-right"></i></p>
                                 <div>
                                     <p>{{$rl->message}}</p>
                                     @foreach($image_comment as $key => $img)
@@ -189,9 +193,13 @@
                         </li>
                     </ul>
                     @endif
+                    @endif
+                    @endforeach
                     @endforeach
                 </li>
                 </ul>
+                @endif
+                @endforeach
                 @endforeach
                 <hr>
                 <div class="well">

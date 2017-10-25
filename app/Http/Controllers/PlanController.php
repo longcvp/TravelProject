@@ -7,6 +7,7 @@ use App\Plan;
 use App\Follow;
 use App\ImageComment;
 use App\Join;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PlanRequest;
@@ -20,47 +21,59 @@ class PlanController extends Controller
     }
 
     public function showPlan($id)
-    {
+    {   
         $user_id = Plan::where('id',$id)->value('user_id');
         if ($user_id == Auth::id()) {
             $image_comment = ImageComment::all();
-            $comments = DB::table('comments')
-                ->join('users', 'comments.user_id', '=', 'users.id')
-                ->select('comments.*','users.name','users.avatar_image')
-                ->where('comments.plan_id',$id)
-                ->whereNull('comments.reply_id')
-                ->orderBy('comments.created_at','asc')
-                ->get();
-            $reply = DB::table('comments')
-                ->join('users', 'comments.user_id', '=', 'users.id')
-                ->select('comments.*','users.name','users.avatar_image')
-                ->where('comments.plan_id',$id)
-                ->whereNotNull('comments.reply_id')
-                ->orderBy('comments.created_at','asc')
-                ->get();
+            $users_id_comment = array();
+            $comments = Plan::find($id)->comment_info->where('reply_id',null);
+            foreach ($comments as $key => $value) {
+                $users_id_comment[] = $value->user_id;
+            }
+            $users_id_comment = array_unique($users_id_comment);
+            $users_comment = array();
+            foreach ($users_id_comment as $value) {
+                    $users_comment[] = User::find($value);
+                }            
+            $users_id_reply = array();
+            $reply = Plan::find($id)->comment_info->where('reply_id','<>',null);
+            foreach ($reply as $key => $value) {
+                $users_id_reply[] = $value->user_id;
+            }
+            $users_id_reply = array_unique($users_id_reply);
+            $users_reply = array();
+            foreach ($users_id_reply as $value) {
+                    $users_reply[] = User::find($value);
+                }
             $plan_host = Plan::where('id',$id)->get();
-            return view('plan.host',['plan_host' => $plan_host,'comments' => $comments,'reply' => $reply,'image_comment' => $image_comment]);
+            return view('plan.host',['plan_host' => $plan_host,'comments' => $comments,'reply' => $reply,'image_comment' => $image_comment,'users_comment' => $users_comment,'users_reply' => $users_reply]);
         }
         else {
             $image_comment = ImageComment::all();
-            $comments = DB::table('comments')
-                ->join('users', 'comments.user_id', '=', 'users.id')
-                ->select('comments.*','users.name','users.avatar_image')
-                ->where('comments.plan_id',$id)
-                ->whereNull('comments.reply_id')
-                ->orderBy('comments.created_at','asc')
-                ->get();
-            $reply = DB::table('comments')
-                ->join('users', 'comments.user_id', '=', 'users.id')
-                ->select('comments.*','users.name','users.avatar_image')
-                ->where('comments.plan_id',$id)
-                ->whereNotNull('comments.reply_id')
-                ->orderBy('comments.created_at','asc')
-                ->get();
+            $users_id_comment = array();
+            $comments = Plan::find($id)->comment_info->where('reply_id',null);
+            foreach ($comments as $key => $value) {
+                $users_id_comment[] = $value->user_id;
+            }
+            $users_id_comment = array_unique($users_id_comment);
+            $users_comment = array();
+            foreach ($users_id_comment as $value) {
+                    $users_comment[] = User::find($value);
+                }            
+            $users_id_reply = array();
+            $reply = Plan::find($id)->comment_info->where('reply_id','<>',null);
+            foreach ($reply as $key => $value) {
+                $users_id_reply[] = $value->user_id;
+            }
+            $users_id_reply = array_unique($users_id_reply);
+            $users_reply = array();
+            foreach ($users_id_reply as $value) {
+                    $users_reply[] = User::find($value);
+                }
             $check_join = Join::where('user_id',Auth::id())->where('plan_id',$id)->value('join');
             $check_follow = Follow::where('user_id',Auth::id())->where('plan_id',$id)->value('follow');
             $away = Plan::where('id',$id)->get();
-            return view('plan.away',['away' => $away,'check_join' => $check_join, 'check_follow' => $check_follow,'comments' => $comments,'reply' => $reply,'image_comment' => $image_comment]);
+            return view('plan.away',['away' => $away,'check_join' => $check_join, 'check_follow' => $check_follow,'comments' => $comments,'reply' => $reply,'image_comment' => $image_comment,'users_comment' => $users_comment,'users_reply' => $users_reply]);
         }
     }
 
@@ -79,13 +92,18 @@ class PlanController extends Controller
     {
         $user_id = Plan::where('id',$id)->value('user_id');
         if ($user_id == Auth::id()) {
-            $users = DB::table('users')
-                ->join('joins', 'users.id', '=', 'joins.user_id')
-                ->select('users.*','joins.join')
-                ->where('joins.plan_id',$id)
-                ->get();
+            $users_id = array();
+            $join = Plan::find($id)->joins;
+            foreach ($join as $key => $join) {
+                $users_id[] = $join->user_id;
+            }
+            $users = array();
+            foreach ($users_id as $value) {
+                $users[] = User::find($value);
+            }
+            $joins = Join::where('plan_id',$id)->select('user_id','join')->get();
             $plan = Plan::where('id',$id)->get();
-            return view('plan.list',['plan' => $plan,'users' => $users]); 
+            return view('plan.list',['plan' => $plan,'users' => $users,'joins' => $joins]); 
         }
         else 
             return redirect()->back();

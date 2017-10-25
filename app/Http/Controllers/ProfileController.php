@@ -35,22 +35,29 @@ class ProfileController extends Controller
 
     public function showPlanJoin()
     {
-        $plan_join = DB::table('joins')
-            ->join('plans','joins.plan_id', '=', 'plans.id')
-            ->select('plans.*')
-            ->where('joins.user_id',Auth::id())
-            ->where('joins.join',2)
-            ->get();
+        $plan_id = array();
+        $join = User::find(Auth::id())->joins->where('join',2);
+        foreach ($join as $key => $join) {
+            $plan_id[] = $join->plan_id;
+        }
+        $plan_join = array();
+        foreach ($plan_id as $value) {
+            $plan_join[] = Plan::find($value);
+        }
         return view('user.join',['plan_join' => $plan_join]);
     }
 
     public function showPlanFollow()
     {
-        $plan = DB::table('follows')
-            ->join('plans','follows.plan_id', '=', 'plans.id')
-            ->select('plans.*')
-            ->where('follows.user_id',Auth::id())
-            ->get();
+        $plan_id = array();
+        $follow = User::find(Auth::id())->follows;
+        foreach ($follow as $key => $follow) {
+            $plan_id[] = $follow->plan_id;
+        }
+        $plan = array();
+        foreach ($plan_id as $value) {
+            $plan[] = Plan::find($value);
+        }
         return view('user.follow',['plan' => $plan]);
     }
 
