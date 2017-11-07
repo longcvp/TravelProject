@@ -64,30 +64,56 @@
                 @endif
             </div>
         </div>
+        <?php $x = Auth::user()->gender; ?>
+        @if($x == 1)
         <div class="form-group">
             <label for="gender" class="col-md-4 control-label">Gender</label>
             <div class="col-md-6">
-                <input id = "gender" name="gender" type="hidden" class="form-control">
-                <select id="MyGender">
-                    <option value="1">Male</option>
-                    <option value="2">Female</option>
+                <input id = "abc" name="gender" type="hidden" class="form-control">
+                <select id="mySelect">
+                    <option value="1" selected>Male</option>
+                    <option value="2">Famale</option>
                 </select>
             </div>
         </div>
+        @elseif($x == 2)
+        <div class="form-group">
+            <label for="gender" class="col-md-4 control-label">Gender</label>
+            <div class="col-md-6">
+                <input id = "abc" name="gender" type="hidden" class="form-control">
+                <select id="mySelect">
+                    <option value="1">Male</option>
+                    <option value="2" selected>Famale</option>
+                </select>
+            </div>
+        </div>
+        @else
+        <div class="form-group">
+            <label for="gender" class="col-md-4 control-label">Gender</label>
+            <div class="col-md-6">
+                <input id = "abc" name="gender" type="hidden" class="form-control">
+                <select id="mySelect">
+                    <option>Select</option>
+                    <option value="1">Male</option>
+                    <option value="2">Famale</option>
+                </select>
+            </div>
+        </div>
+        @endif
         <div class="form-group">
             <div class="col-md-6 col-md-offset-4">
-                <button type="submit" class="btn btn-primary" onclick="gender()">
+                <button type="submit" class="btn btn-primary" onclick="myFunction()">
                     Submit
                 </button>
             </div>
         </div>
     </form>
     <script>
-        function gender() {
-            var x = document.getElementById("MyGender").value;
-            document.getElementById("gender").value = x;
-            }
-    </script>        
+    function myFunction() {
+        x = document.getElementById("mySelect").value;
+        document.getElementById("abc").value = x;
+    }
+    </script>       
     </div>
 </div>
 @endsection

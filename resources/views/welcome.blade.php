@@ -93,76 +93,85 @@
           <span class="glyphicon glyphicon-chevron-right"></span>
           <span class="sr-only">Next</span>
         </a>
-      </div>
-            <h2>New Plans</h2>
-            <hr style=" height: 30px; border-style: solid; border-color: #8c8b8b; border-width: 1px 0 0 0; border-radius: 20px">
+    </div>
+    <br>
+    <h2 id="newplan">New Plans</h2>
+    <br>
+        <h3>
+            <a href="#hotplan">Hot Plan <span class="glyphicon glyphicon-chevron-down"></span></a>
+        </h3>
+        <hr style=" height: 30px; border-style: solid; border-color: #8c8b8b; border-width: 1px 0 0 0; border-radius: 20px">
         @foreach($plan as $key => $data)
             <table>
                 <tr>
                     <div class="row">
 
                         <div class="col-md-6">
-                            <?php $img = $data->cover_image; $link = 'coverplan/'.$img ; ?>
-                            <img class="img-fluid" src="{{asset($link)}}" style="width: 500px; height: 500px;">
+                            <?php $img = $data->cover; $link = $img ; ?>
+                            <img class="img-fluid" src="{{asset($link)}}">
                         </div>
-                        <div class="col-md-4">
-                            <h3>Name : {{$data->plan_name}}</h3>
+                        <div class="col-md-6">
+                            <h3>Name : {{$data->name}}</h3>
                             <h3>Plan Details</h3>
                             <ul>
-                            <li>Start : {{$data->start_time}}</li>
-                            <li>End : {{$data->end_time}}</li>
+                            <li>Description : {{$data->description}}</li>
+                            <li>Start : {{$data->starting_time}}</li>
+                            <li>End : {{$data->ending_time}}</li>
                             <li>Max of people: {{$data->max_people}}</li>
                             <li>
-                                @if($data->status == 1)
+                                @if($data->status == 0)
                                 {{"Status : Creating"}}
-                                @elseif($data->status == 2)
+                                @elseif($data->status == 1)
                                 {{"Status : Running"}}
-                                @elseif($data->status == 3)
+                                @elseif($data->status == 2)
                                 {{"Status : Finish"}}
-                                @elseif($data->status == 4)
+                                @elseif($data->status == 3)
                                 {{"Status : Cancel"}}
                                 @endif
                             </li>
-                            <li>Create at: {{$data->created_at}}</li>
+                            <li>Create: {{$data->created_at}} </li>                                
                             </ul>
-                            <a href="{{route('register')}}" type="button" class="btn btn-danger">Join us</a>                           
-                        </div>
+                            <a href="{{route('register')}}" type="button" class="btn btn-danger">Join Us</a>                           
+                        </div>                       
                     </div>
                 </tr>
             <tr><br><br></tr>
         </table>
         @endforeach
-        </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <br>
-            <h2>Hot Plans</h2>
-            <hr style=" height: 30px; border-style: solid; border-color: #8c8b8b; border-width: 1px 0 0 0; border-radius: 20px">
+<div class="container" id="hotplan">
+    <div class="row">
+        <br>
+        <h2>Hot Plans</h2>
+        <br>
+        <h3>
+            <a href="#newplan">New Plan <span class="glyphicon glyphicon-chevron-up"></span></a>
+        </h3>
+        <hr style=" height: 30px; border-style: solid; border-color: #8c8b8b; border-width: 1px 0 0 0; border-radius: 20px">
             @foreach($plan_hot as $key => $data)
             <table>
                 <tr>
                     <div class="row">
 
                         <div class="col-md-6">
-                            <?php $img = $data->cover_image; $link = 'coverplan/'.$img ; ?>
-                            <img class="img-fluid" src="{{asset($link)}}" style="width: 500px; height: 500px;">
+                            <?php $img = $data->cover; $link = $img ; ?>
+                            <img class="img-fluid" src="{{asset($link)}}">
                         </div>
-                        <div class="col-md-4">
-                            <h3>Name : {{$data->plan_name}}</h3>
+                        <div>
+                            <h3>Name : {{$data->name}}</h3>
                             <h3>Plan Details</h3>
                             <ul>
-                            <li>Start : {{$data->start_time}}</li>
-                            <li>End : {{$data->end_time}}</li>
+                            <li>Start : {{$data->starting_time}}</li>
+                            <li>End : {{$data->ending_time}}</li>
                             <li>Max of people: {{$data->max_people}}</li>
                             <li>
-                                @if($data->status == 1)
+                                @if($data->status == 0)
                                 {{"Status : Creating"}}
-                                @elseif($data->status == 2)
+                                @elseif($data->status == 1)
                                 {{"Status : Running"}}
-                                @elseif($data->status == 3)
+                                @elseif($data->status == 2)
                                 {{"Status : Finish"}}
-                                @elseif($data->status == 4)
+                                @elseif($data->status == 3)
                                 {{"Status : Cancel"}}
                                 @endif
                             </li>
@@ -170,14 +179,14 @@
                             <li>Follow: {{$data->followed}} people</li>
                             <li>Comment: {{$data->comments}} </li>
                             </ul>
-                            <a href="{{route('register')}}" type="button" class="btn btn-danger">Join us</a>                           
-                        </div>
+                            <a href="{{route('register')}}" type="button" class="btn btn-danger">Join Us</a>                           
+                        </div>                        
                     </div>
                 </tr>
             <tr><br><br></tr>
         </table>
-        @endforeach       
-        </div>
+        @endforeach   
+    </div>
     </div>
     <footer class="text-center">
           <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">

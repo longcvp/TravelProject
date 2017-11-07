@@ -41,4 +41,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Follow','user_id','id');
     }
+
+    public function created_trips()
+    {
+        return $this->hasMany('App\Trip','owner_id');
+    }
 }

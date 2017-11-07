@@ -1,0 +1,139 @@
+.profile_avatar_trip 
+	{
+	position: relative;
+	width: 100px;
+	height: auto; 
+	box-shadow: 3px 3px 3px #888888;
+	}
+.profile_avatar 
+	{
+	position: relative;
+	width: 200px;
+	height: 100px; 
+	box-shadow: 3px 3px 3px #888888;
+	}
+.avatar
+{
+	width: 200px;
+	box-shadow: 3px 3px 3px #888888;
+
+}
+.avatar_trip
+{
+	width: 150px;
+	height: auto;
+	box-shadow: 3px 3px 3px #888888;
+
+}
+.avatar_
+.profile
+{
+	box-shadow: 3px 3px 3px #888888;
+	border: 1px groove white;
+}
+.edit_avatar
+{
+	position: absolute;
+	float: right;
+	width: 30px
+	height: 30px;
+	border: 1px groove white;
+	background: #395063;
+	color: white;
+	font-size: 140%;
+	margin-top: 170px;
+	margin-left: 3px;
+}
+.edit_button 
+{
+	position: absolute;
+	margin-left: 150px; 
+}
+
+.cover_trip
+
+{
+	width: 1150px;
+	height: 300px !important;
+	vertical-align: middle;
+    text-align:center;
+}
+.cover
+{
+	width: 1150px;
+	height: auto;
+	box-shadow: 3px 3px 3px #888888;
+	vertical-align: middle;
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.comment_avatar
+{
+	/*position: relative;*/
+	width: 100px;
+	height: 100px; 
+	box-shadow: 3px 3px 3px #888888;
+}
+
+.sub_comment_avatar
+{
+	/*position: relative;*/
+	width: 50px;
+	height: 50px; 
+	box-shadow: 3px 3px 3px #888888;
+}
+.commentContent{
+	margin-left:30px;
+}
+.subCommentContent{
+	margin-left:50px;
+}
+.comment
+{	
+	box-shadow: 3px 3px 3px #888888;
+	margin-top:20px;
+	margin-left:20px;
+	margin-right:20px;
+	border: ridge;
+}
+
+.add_comment
+{	
+	box-shadow: 3px 3px 3px #888888;
+	margin-top:20px;
+	margin-left:20px;
+	margin-right:20px;
+	border: ridge;
+}
+.subComment
+{	
+	box-shadow: 3px 3px 3px #888888;
+	margin-top:20px;
+	margin-left:20px;
+	margin-right:0px;
+	border: ridge;
+}
+
+}
+html, body 
+{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#map 
+{
+    height: 65%;
+    width: 100%;
+}
+hr.style2 {
+	border-top: 3px double #8c8b8b;
+}
+.dropzone {
+width: 600px;
+height: 200px;
+min-height: 0px !important;
+margin-left:30px;
+}

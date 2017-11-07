@@ -17,6 +17,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+
 //Profile
 
 Route::group(['prefix'=>'home','middleware' => 'auth'],function(){
@@ -36,9 +38,13 @@ Route::group(['prefix'=>'home','middleware' => 'auth'],function(){
 		'uses' => 'ProfileController@showPlanFollow',	
 	]);
 
-	Route::get('/create', [
-	'uses' => 'PlanController@showCreatePlan',
+	Route::get('/create_trip', [
+	'uses' => 'CreateTripController@create',
 	]);
+
+	Route::post('/create_trip', [
+		'uses' => 'CreateTripController@store',
+		]);
 
 	Route::get('/plan/{id}',[
 		'as' => 'plan',
@@ -109,6 +115,10 @@ Route::group(['middleware' => 'auth'],function(){
 		'uses' => 'FollowController@followPlan',
 	]);
 
+	Route::post('unfollow_plan', [
+		'as' => 'unfollow',
+		'uses' => 'FollowController@unfollowPlan',
+	]);
 
 	// join a plan
 	Route::get('join_plan',function(){
@@ -119,6 +129,12 @@ Route::group(['middleware' => 'auth'],function(){
 		'as' => 'join',
 		'uses' => 'JoinController@joinPlan',
 	]);
+
+	Route::post('unjoin_plan', [
+		'as' => 'unjoin',
+		'uses' => 'JoinController@unjoinPlan',
+	]);
+
 
 	Route::get('accept',[
 	'as' => 'accept',
@@ -146,6 +162,11 @@ Route::group(['middleware' => 'auth'],function(){
 		'uses' => 'CommentController@comment',
 	]);
 
+	Route::post('del_comment', [
+		'middleware' => 'auth',
+		'as' => 'del_comment',
+		'uses' => 'CommentController@DeleteComment',
+	]);
 	//reply
 	Route::get('reply',function(){
 		return redirect('/home');
@@ -155,6 +176,12 @@ Route::group(['middleware' => 'auth'],function(){
 		'middleware' => 'auth',
 		'as' => 'reply',
 		'uses' => 'CommentController@reply',
+	]);
+
+	Route::post('del_reply', [
+		'middleware' => 'auth',
+		'as' => 'del_reply',
+		'uses' => 'CommentController@deleteReply',
 	]);
 
 });

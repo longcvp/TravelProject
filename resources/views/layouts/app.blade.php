@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" id = "csrf-token" content="{{ csrf_token() }}">
+    <title>Du Lich Bui</title>
+
     <style type="text/css">
     table {
     font-family: arial, sans-serif;
@@ -19,20 +21,28 @@
         padding: 8px;
     }
     </style>
-    <title>Du Lịch Bụi</title>
+      <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/bootstrap-imageupload.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('js/login.js') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{{ asset('css/style-responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/tab/tabs.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/font/css">
-    <link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css">
-    <!-- stylesheet -->
-    <link rel="stylesheet" href="css/mystyle.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- jquery ui -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   <!--  slick -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
+    <link href="{{ asset('css/slick.theme.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/fonts/slick.woff')}}">
+    <!-- Add the slick-theme.css if you want default styling -->
+    
+
+   <!-- drop zone -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
+    @yield('header');
+
 </head>
-<body id = "myPage">
+<body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -60,7 +70,11 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
+                    
                         <!-- Authentication Links -->
+                        <li class="navbar-icon">
+                     
+                        </li>   
                         @guest
                             <li><a href="{{ route('login') }}"  >Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
@@ -93,6 +107,11 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    @yield('jq_lib')
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+    <script src="{{ asset('js/tabs.min.js') }}"></script>
+    @yield('sc')
 </body>
 </html>

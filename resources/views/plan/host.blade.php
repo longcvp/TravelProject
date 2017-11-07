@@ -5,117 +5,59 @@
       <div class="row">
 
         <div class="col-md-6">
-        <?php $img = $data->cover_image; $link = 'coverplan/'.$img ; ?>
-          <img class="img-fluid" src="{{asset($link)}}" style="width: 500px; height: 500px;">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalChangeCover">Change Cover Photo</button>
-              <!-- Modal -->                        
-            <div class="modal fade" id="modalChangeCover" role="dialog">
-                <div class="modal-dialog">
-                
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Change/Update Cover</h4>
-                    </div>
-                    <div class="modal-body">
-                    <form class="form-horizontal" method="POST" action="{{route('cover')}}" enctype="multipart/form-data" >
-                        {{ csrf_field() }}
-                        <div class="form-group{{ $errors->has('cover') ? ' has-error' : '' }}">
-                            <label class="control-label">Update profile Image</label>
-                            <input type="hidden" name="plan_id" value="{{$data->id}}">
-                            <input type="file" name="cover" required>
+            <?php $img = $data->cover; $link = $img ; ?>
+            <img class="img-fluid" src="{{asset($link)}}">
+            <br><br>
+            <div class="modal-body">
+                <form class="form-horizontal" method="POST" action="{{route('cover')}}" enctype="multipart/form-data" >
+                    {{ csrf_field() }}
+                    <div class="form-group{{ $errors->has('cover') ? ' has-error' : '' }}">
+                        <label class="control-label">Update Cover Image</label>
+                        <input type="hidden" name="plan_id" value="{{$data->id}}">
+                        <input type="file" accept ="image/*" name="cover" required>
 
-                                @if ($errors->has('cover'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('cover') }}</strong>
-                                    </span>
-                                @endif                                
-                        </div>
-                        <input type="submit" class="btn btn-info">
-                    </form>
+                            @if ($errors->has('cover'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('cover') }}</strong>
+                                </span>
+                            @endif                                
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-                  
-                </div>
+                    <input type="submit" class="btn btn-info">
+                </form> 
             </div> 
         </div>
-
-        <div class="col-md-4">
-          <h3 class="my-3">Name : {{$data->plan_name}}</h3>
-          <h3 class="my-3">Plan Details</h3>
-          <ul>
-            <li>Start : {{$data->start_time}}</li>
-            <li>End : {{$data->end_time}}</li>
-            <li>Max of people: {{$data->max_people}} people</li>
-            <li>
-                @if($data->status == 1)
-                {{"Status : Creating"}}
-                @elseif($data->status == 2)
-                {{"Status : Running"}}
-                @elseif($data->status == 3)
-                {{"Status : Finish"}}
-                @elseif($data->status == 4)
-                {{"Status : Cancel"}}
-                @endif
-            </li>
-            <li>Join: {{$data->joined}} people</li>
-            <li>Follow: {{$data->followed}} people</li>
-          </ul>
-            <div class="col-sm-6 col-md-8">
-                <a type="button" class="btn btn-success" href="./edit/{{$data->id}}" >Change</a>
-                <a type="button" class="btn btn-success" href="./list/{{$data->id}}" >List of member</a>
-                <br><br>
-                <a href="#comment">Comment <span class="glyphicon glyphicon-chevron-down"></span></a> 
+        <div class="col-md-6">
+                <h3 class="my-3">Name : {{$data->name}}</h3>
+                <h3 class="my-3">Plan Details</h3>
+                <ul>
+                <li>Description : {{$data->description}}</li>
+                <li>Start : {{$data->starting_time}}</li>
+                <li>End : {{$data->ending_time}}</li>
+                <li>Max of people: {{$data->max_people}}</li>
+                <li>
+                    @if($data->status == 0)
+                    {{"Status : Creating"}}
+                    @elseif($data->status == 1)
+                    {{"Status : Running"}}
+                    @elseif($data->status == 2)
+                    {{"Status : Finish"}}
+                    @elseif($data->status == 3)
+                    {{"Status : Cancel"}}
+                    @endif
+                </li>
+                <li>Join: {{$data->joined}} people</li>
+                <li>Follow: {{$data->followed}} people</li>
+                </ul>
+                <div class="col-sm-6 col-md-8">
+                    <a type="button" class="btn btn-success" href="./edit/{{$data->id}}" >Change</a>
+                    <a type="button" class="btn btn-success" href="./list/{{$data->id}}" >List of member</a>
+                    <br><br>
+                    <a href="#comment">Comment <span class="glyphicon glyphicon-chevron-down"></span></a> 
+                </div>
             </div>
-        </div>
-
-
       </div>
     <br>
     <br>
-            <div class="col-sm-6 col-md-10" style="text-align: center;" >
-            	<img src="http://erinlyyc.com/wp-content/uploads/2017/05/google-maps.jpg">
-            	<br>
-            	<br>
-            	<table>
-            		<tr>
-            			<th>Start</th>
-            			<th>End</th>
-            			<th>Vehicle</th>
-            			<th>Activity</th>
-            		</tr>
-            		<tr>
-            			<td>Vĩnh Yên, Vĩnh Phúc</td>
-            			<td>Mỹ Đình, Hà Nội</td>
-            			<td>Ô tô</td>
-            			<td>Di chuyển</td>
-            		</tr>
-            		<tr>
-            			<td>Mỹ Đình, Hà Nội</td>
-            			<td>Sơn Tây, Hà Nội</td>
-            			<td>Xe máy</td>
-            			<td>Di chuyển</td>
-            		</tr>
-            		<tr>
-            			<td>Mỹ Đình, Hà Nội</td>
-            			<td>Sơn Tây, Hà Nội</td>
-            			<td>Xe máy</td>
-            			<td>Di chuyển</td>
-            		</tr>
-            		<tr>
-            			<td>Mỹ Đình, Hà Nội</td>
-            			<td>Sơn Tây, Hà Nội</td>
-            			<td>Xe máy</td>
-            			<td>Di chuyển</td>
-            		</tr>            		
-            	</table>
-            </div>
-            <br>
-            <br>
 </div>
 <hr style="border-top: 3px double #8c8b8b;">
 <div class="container" id="comment">
@@ -133,7 +75,16 @@
                 <li class="clearfix">
                   <img src="{{asset($link)}}" class="avatar" alt="">
                     <div class="post-comments">
-                        <p class="meta">{{$cmt->created_at}} <a href="#">{{$uc->name}}</a> says : <i class="pull-right"></i></p>
+                        <p class="meta">{{$cmt->created_at}} <a href="#">{{$uc->name}}</a> says : 
+                        <i class="pull-right">
+                        <form class="form-horizontal" method="POST" action="{{route('del_comment')}}">
+                         {{ csrf_field() }}
+                            <input type="hidden" name="id" value="{{$cmt->id}}">
+                            <input type="hidden" name="plan_id" value="{{$cmt->plan_id}}">
+                            <input type="submit" class="btn btn-danger" value="Delete">
+                        </form>
+                        </i>
+                        </p>
                         <div>
                             <p>{{$cmt->message}}</p>
                             @foreach($image_comment as $key => $img)
@@ -151,7 +102,7 @@
                                 {{ csrf_field() }}
                                 <label for="comment">Your Comment</label >
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="3" name="message" required></textarea>
+                                    <textarea class="form-control" rows="3" name="message"></textarea>
                                     <input type="hidden" name="comment_id" value="{{$cmt->id}}">
                                     <input type="hidden" name="plan_id" value="{{$data->id}}">
                                     <div class="imageupload panel panel-default">
@@ -178,7 +129,15 @@
                         <li class="clearfix">
                           <img src="{{asset($link)}}" class="avatar" alt="">
                             <div class="post-comments">
-                                <p class="meta"> {{$rl->created_at}}  <a href="#">{{$ur->name}}</a> says : <i class="pull-right"></i></p>
+                                <p class="meta"> {{$rl->created_at}}  <a href="#">{{$ur->name}}</a> says : <i class="pull-right">
+                                <form class="form-horizontal" method="POST" action="{{route('del_reply')}}">
+                                 {{ csrf_field() }}
+                                    <input type="hidden" name="id" value="{{$rl->id}}">
+                                    <input type="hidden" name="plan_id" value="{{$rl->plan_id}}">
+                                    <input type="submit" class="btn btn-danger" value="Delete">
+                                </form>
+                                </i>
+                                </p>
                                 <div>
                                     <p>{{$rl->message}}</p>
                                     @foreach($image_comment as $key => $img)
@@ -207,7 +166,7 @@
                         {{ csrf_field() }}
                         <label for="comment">Your Comment</label>
                         <div class="form-group">
-                            <textarea class="form-control" rows="3" name="message" required></textarea>
+                            <textarea class="form-control" rows="3" name="message"></textarea>
                             <input type="hidden" name="plan_id" value="{{$data->id}}">
                             <div class="imageupload panel panel-default">
                                 <div class="file-tab panel-body">

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Plan;
+use App\Trip;
 
 class HomeController extends Controller
 {
@@ -24,8 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $plan = Plan::take(10)->orderBy('id','desc')->get();
-        $plan_hot = Plan::take(10)->orderBy('comments','desc')->get();
+        $plan = Trip::take(10)->orderBy('id','desc')->get();
+        $plan_hot = Trip::take(10)->orderBy('comments','desc')->get();
         return view('home',['plan' => $plan,'plan_hot' => $plan_hot]);
     }
 

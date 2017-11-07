@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\EditRequest;
 use App\User;
-use App\Plan;
+use App\Trip;
 use App\Follow;
 use App\Join;
 use Illuminate\Support\Facades\DB;
@@ -17,14 +17,14 @@ class ProfileController extends Controller
 {
     public function guest()
     {
-        $plan = Plan::take(10)->orderBy('created_at','desc')->get();
-        $plan_hot = Plan::take(10)->orderBy('comments','desc')->get();
+        $plan = Trip::take(10)->orderBy('created_at','desc')->get();
+        $plan_hot = Trip::take(10)->orderBy('comments','desc')->get();
         return view('welcome',['plan' => $plan,'plan_hot' => $plan_hot]);
     }
 	//show profile
     public function showProfile()
     {
-        $plan = Plan::where('user_id',Auth::id())->get();
+        $plan = Trip::where('owner_id',Auth::id())->get();
         return view('user.profile',['plan' => $plan]);
     }
 
@@ -42,7 +42,7 @@ class ProfileController extends Controller
         }
         $plan_join = array();
         foreach ($plan_id as $value) {
-            $plan_join[] = Plan::find($value);
+            $plan_join[] = Trip::find($value);
         }
         return view('user.join',['plan_join' => $plan_join]);
     }
@@ -56,7 +56,7 @@ class ProfileController extends Controller
         }
         $plan = array();
         foreach ($plan_id as $value) {
-            $plan[] = Plan::find($value);
+            $plan[] = Trip::find($value);
         }
         return view('user.follow',['plan' => $plan]);
     }
@@ -87,7 +87,7 @@ class ProfileController extends Controller
     		'birthday' => $request->birthday,
     		'gender' => $request->gender,
     	]);
-    	return redirect()->back();
+    	return redirect()->route('profile');
     }
 }
 

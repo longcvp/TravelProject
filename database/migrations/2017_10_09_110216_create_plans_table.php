@@ -16,7 +16,16 @@ class CreatePlansTable extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('plan_name',255);
+            $table->integer('trip_id');
+            $table->double('src_long');
+            $table->double('src_lat');
+            $table->string('src_name');
+            $table->double('dest_long');
+            $table->double('dest_lat');
+            $table->string('dest_name');
+            $table->date('ending_time');
+            $table->string('vehicle');
+            $table->text('activity');
             $table->date('start_time');
             $table->date('end_time');
             $table->integer('status');

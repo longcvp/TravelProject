@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Plan;
+use App\Trip;
 use App\Follow;
 use App\Join;
 use Illuminate\Support\Facades\Auth;
@@ -23,13 +23,22 @@ class FollowController extends Controller
     		$follow->follow  = 1;
     		$follow->save();
 
-    		$plan = Plan::where('id',$request->plan_id)->update([
-    			'followed' => Plan::where('id',$request->plan_id)->value('followed') + 1,
+    		$plan = Trip::where('id',$request->plan_id)->update([
+    			'followed' => Trip::where('id',$request->plan_id)->value('followed') + 1,
     		]);
 
     		return redirect()->route('plan',$request->plan_id);
     	}
     	else
     		return redirect()->route('plan',$request->plan_id);
+    }
+
+    public function unfollowPlan(Request $request)
+    {
+        $unfollow = Follow::where('user_id',Auth::id())->where('plan_id',$request->plan_id)->delete();
+        $trip = Trip::where('id',$request->plan_id)->update([
+                'followed' => Trip::where('id',$request->plan_id)->value('followed') - 1,
+                ]);
+        return redirect()->route('plan',$request->plan_id);
     }
 }

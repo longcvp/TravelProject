@@ -10,40 +10,22 @@
                         <?php $img = Auth::user()->avatar_image; $link = 'avatar/'.$img ; ?>
                         <img src="{{ asset($link) }}" style="width:150px; height:150px; float:left; border-radius:50%; margin-right:25px; " >
                         <br><br>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalChangeAvatar">Change avatar</button>
-                          <!-- Modal -->                        
-                        <div class="modal fade" id="modalChangeAvatar" role="dialog">
-                            <div class="modal-dialog">
-                            
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Change/Update Avatar</h4>
-                                </div>
-                                <div class="modal-body">
-                                <form class="form-horizontal" method="POST" action="{{route('avatar')}}" enctype="multipart/form-data" >
-                                    {{ csrf_field() }}
-                                    <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
-                                        <label class="control-label">Update profile Image</label>
-                                        <input type="file" accept ="image/*" name="avatar" required>
+                        <div class="modal-body">
+                            <form class="form-horizontal" method="POST" action="{{route('avatar')}}" enctype="multipart/form-data" >
+                                {{ csrf_field() }}
+                                <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
+                                    <label class="control-label">Update profile Image</label>
+                                    <input type="file" accept ="image/*" name="avatar" required>
 
-                                            @if ($errors->has('avatar'))
-                                                <span class="help-block">
-                                                    <strong>{{ $errors->first('avatar') }}</strong>
-                                                </span>
-                                            @endif                                
-                                    </div>
-                                    <input type="submit" class="btn btn-info">
-                                </form>
+                                        @if ($errors->has('avatar'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('avatar') }}</strong>
+                                            </span>
+                                        @endif                                
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                              
-                            </div>
-                        </div>                      
+                                <input type="submit" class="btn btn-info">
+                            </form> 
+                        </div>                   
                     </div>
                     <div class="col-sm-6 col-md-8">
                         <h4>Name : {{Auth::user()->name}}</h4>
@@ -83,7 +65,13 @@
         </ul>
     </div>
     <br><br>
-    <a href="./create" type="button" class="btn btn-primary">Create new plan</a>
+       <a href="./create_trip">
+                            <button class="btn btn-primary">
+                                <span class="glyphicon glyphicon-plus disabled" aria-hidden="true"></span>
+                                <span class="visible-xs">Create a trip</span>
+                                Create a trip
+                            </button>
+                        </a>
     <br><br>
     @foreach($plan as $key => $data)
         <table>
@@ -91,24 +79,25 @@
                 <div class="row">
 
                     <div class="col-md-6">
-                        <?php $img = $data->cover_image; $link = 'coverplan/'.$img ; ?>
-                        <img class="img-fluid" src="{{asset($link)}}" style="width: 500px; height: 500px;">
+                        <?php $img = $data->cover; $link = $img ; ?>
+                        <img class="img-fluid" src="{{asset($link)}}">
                     </div>
-                    <div class="col-md-4">
-                        <h3>Name : {{$data->plan_name}}</h3>
+                    <div class="col-md-6">
+                        <h3>Name : {{$data->name}}</h3>
                         <h3>Plan Details</h3>
                         <ul>
-                        <li>Start : {{$data->start_time}}</li>
-                        <li>End : {{$data->end_time}}</li>
+                        <li>Description : {{$data->description}}</li>
+                        <li>Start : {{$data->starting_time}}</li>
+                        <li>End : {{$data->ending_time}}</li>
                         <li>Max of people: {{$data->max_people}}</li>
                         <li>
-                            @if($data->status == 1)
+                            @if($data->status == 0)
                             {{"Status : Creating"}}
-                            @elseif($data->status == 2)
+                            @elseif($data->status == 1)
                             {{"Status : Running"}}
-                            @elseif($data->status == 3)
+                            @elseif($data->status == 2)
                             {{"Status : Finish"}}
-                            @elseif($data->status == 4)
+                            @elseif($data->status == 3)
                             {{"Status : Cancel"}}
                             @endif
                         </li>
@@ -116,7 +105,7 @@
                         <li>Follow: {{$data->followed}} people</li>
                         </ul>
                         <a href="./plan/{{$data->id}}" type="button" class="btn btn-danger">Detail</a>                       
-                    </div>
+                    </div>                    
                 </div>
             </tr>
         <tr><br><br></tr>

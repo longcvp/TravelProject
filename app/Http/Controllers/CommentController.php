@@ -7,7 +7,6 @@ use App\Plan;
 use App\ImageComment;
 use App\Comment;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PlanRequest;
 use Image;
 
@@ -35,6 +34,18 @@ class CommentController extends Controller
     	return redirect()->route('plan',$request->plan_id);
     }
 
+    public function DeleteComment(Request $request)
+    {
+        $del_comment = Comment::find($request->id)->delete();
+        $reply = Comment::where('reply_id',$request->id)->get();
+        foreach ($reply as $key => $value) {
+            $del_reply = Comment::find($value->id)->delete();
+            $del_img = ImageComment::where('comment_id',$value->id)->delete();
+        }
+        $del_img = ImageComment::where('comment_id',$request->id)->delete();
+        return redirect()->route('plan',$request->plan_id);
+    }
+
     public function reply(Request $request)
     {
     	$comment = new Comment ;
@@ -55,5 +66,12 @@ class CommentController extends Controller
             }
         }
     	return redirect()->route('plan',$request->plan_id);
+    }
+
+    public function deleteReply(Request $request)
+    {
+        $del_reply = Comment::find($request->id)->delete();
+        $del_img = ImageComment::where('comment_id',$request->id)->delete();
+        return redirect()->route('plan',$request->plan_id);
     }
 }

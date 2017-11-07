@@ -4,28 +4,30 @@
     @foreach($away as $key => $data)
       <div class="row">
         <div class="col-md-6">
-        <?php $img = $data->cover_image; $link = 'coverplan/'.$img ; ?>
-          <img class="img-fluid" src="{{asset($link)}}" style="width: 500px; height: 500px;">
+            <?php $img = $data->cover; $link = $img ; ?>
+            <img class="img-fluid" src="{{asset($link)}}">
         </div>
-
-        <div class="col-md-4">
-            <h3>Name : {{$data->plan_name}}</h3>
-            <h3>Plan Details</h3>
+        <div class="col-md-6">
+            <h3 class="my-3">Name : {{$data->name}}</h3>
+            <h3 class="my-3">Plan Details</h3>
             <ul>
-            <li>Start : {{$data->start_time}}</li>
-            <li>End : {{$data->end_time}}</li>
+            <li>Description : {{$data->description}}</li>
+            <li>Start : {{$data->starting_time}}</li>
+            <li>End : {{$data->ending_time}}</li>
             <li>Max of people: {{$data->max_people}}</li>
             <li>
-                @if($data->status == 1)
+                @if($data->status == 0)
                 {{"Status : Creating"}}
-                @elseif($data->status == 2)
+                @elseif($data->status == 1)
                 {{"Status : Running"}}
-                @elseif($data->status == 3)
+                @elseif($data->status == 2)
                 {{"Status : Finish"}}
-                @elseif($data->status == 4)
+                @elseif($data->status == 3)
                 {{"Status : Cancel"}}
                 @endif
             </li>
+            <li>Join: {{$data->joined}} people</li>
+            <li>Follow: {{$data->followed}} people</li>
             </ul>
             <br>
             <br>
@@ -36,7 +38,11 @@
                     <input type="submit" name="join" class="btn btn-danger" value="Register">
                 </form>
             @else
-                <a href="#" type="button" class="btn btn-success" >Registered <i class="fa fa-check"></i></a>
+                <form class="form-horizontal" method="post" action="{{route('unjoin')}}">
+                    {{ csrf_field() }} 
+                    <input type="hidden" name="plan_id" value="{{$data->id}}">
+                    <input type="submit" name="join" class="btn btn-success" value="Registered">
+                </form>
             @endif
 
             <br>
@@ -48,14 +54,18 @@
                     <input type="submit" name="follow" class="btn btn-danger" value="Follow">
                 </form> 
             @else
-                <a href="#" type="button" class="btn btn-success" >Followed <i class="fa fa-check"></i></a>
+                <form class="form-horizontal" method="post" action="{{route('unfollow')}}">
+                    {{ csrf_field() }} 
+                    <input type="hidden" name="plan_id" value="{{$data->id}}">
+                    <input type="submit" name="follow" class="btn btn-success" value="Unfollow">
+                </form>
             @endif
             <br>
             <br>
             <div>
                 <a href="#comment">Comment <span class="glyphicon glyphicon-chevron-down"></span></a> 
             </div>                        
-        </div>
+        </div>        
       </div>
             <br>
             <br>
@@ -132,7 +142,7 @@
                                 {{ csrf_field() }}
                                 <label for="comment">Your Comment</label >
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="3" name="message" required></textarea>
+                                    <textarea class="form-control" rows="3" name="message"></textarea>
                                     <input type="hidden" name="comment_id" value="{{$cmt->id}}">
                                     <input type="hidden" name="plan_id" value="{{$data->id}}">
                                     <div class="imageupload panel panel-default">
@@ -188,7 +198,7 @@
                         {{ csrf_field() }}
                         <label for="comment">Your Comment</label>
                         <div class="form-group">
-                            <textarea class="form-control" rows="3" name="message" required></textarea>
+                            <textarea class="form-control" rows="3" name="message"></textarea>
                             <input type="hidden" name="plan_id" value="{{$data->id}}">
                             <div class="imageupload panel panel-default">
                                 <div class="file-tab panel-body">

@@ -55,24 +55,25 @@
                     <div class="row">
 
                         <div class="col-md-6">
-                            <?php $img = $data->cover_image; $link = 'coverplan/'.$img ; ?>
-                            <img class="img-fluid" src="{{asset($link)}}" style="width: 500px; height: 500px;">
+                            <?php $img = $data->cover; $link = $img ; ?>
+                            <img class="img-fluid" src="{{asset($link)}}">
                         </div>
-                        <div class="col-md-4">
-                            <h3>Name : {{$data->plan_name}}</h3>
+                        <div class="col-md-6">
+                            <h3>Name : {{$data->name}}</h3>
                             <h3>Plan Details</h3>
                             <ul>
-                            <li>Start : {{$data->start_time}}</li>
-                            <li>End : {{$data->end_time}}</li>
+                            <li>Description : {{$data->description}}</li>
+                            <li>Start : {{$data->starting_time}}</li>
+                            <li>End : {{$data->ending_time}}</li>
                             <li>Max of people: {{$data->max_people}}</li>
                             <li>
-                                @if($data->status == 1)
+                                @if($data->status == 0)
                                 {{"Status : Creating"}}
-                                @elseif($data->status == 2)
+                                @elseif($data->status == 1)
                                 {{"Status : Running"}}
-                                @elseif($data->status == 3)
+                                @elseif($data->status == 2)
                                 {{"Status : Finish"}}
-                                @elseif($data->status == 4)
+                                @elseif($data->status == 3)
                                 {{"Status : Cancel"}}
                                 @endif
                             </li>
